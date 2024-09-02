@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <link rel="shortcut icon" href="moonlogo.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.4/dist/full.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .background-animate {
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+    }
+
+    .prime--whatsapp,
+    .ant-design--linkedin-filled,
+    .mdi--gmail,
+    .fa6-brands--facebook,
+    .ri--github-fill {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .skill-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .skill-icon:hover {
+      transform: scale(1.2) rotate(20deg);
+    }
+
+    .project-card {
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px) scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .lg\:flex-row {
+        flex-direction: column-reverse;
+      }
+
+      .lg\:w-1\/2 {
+        width: 100%;
+      }
+
+      .lg\:pl-16 {
+        padding-left: 0;
+      }
+
+      .lg\:text-7xl {
+        font-size: 3rem;
+      }
+
+      .lg\:text-2xl {
+        font-size: 1.25rem;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background-color: #000;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transform: translateY(-100%);
+        transition: transform 0.5s ease-in-out;
+        opacity: 0;
+      }
+
+      .nav-links.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .nav-toggle {
+        display: block;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+      }
+
+      #hero {
+        padding-top: 8rem; 
+      }
+
+      #hero h1 {
+        font-size: 2rem; 
+      }
+
+      #hero p {
+        font-size: 1rem; 
+      }
+
+      .skill-icon {
+        font-size: 3rem; 
+      }
+
+      #projects {
+        padding: 8rem 2rem; 
+      }
+
+      .project-card {
+        margin-bottom: 2rem; 
+      }
+
+      .swiper-slide {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-blue-500 to-purple-500 background-animate">
+  <header class="py-4 lg:py-8 px-4 lg:px-16 fixed w-full z-50 bg-opacity-60 backdrop-blur-md bg-white/10 ">
+    <div class="container mx-auto flex justify-between items-center">
+      <img src="Mt.webp" alt="" class="w-16 h-16 lg:w-20 lg:h-20 rounded-full transform transition-transform duration-300 hover:scale-110">
+      <a href="#" class="text-2xl font-bold text-white hover:text-black transition duration-300 ease-in-out">MoonTech</a>
+      <nav>
+        <div class="lg:flex space-x-6 nav-links">
+          <a href="#about" class="text-gray-200 hover:text-black transition duration-300 ease-in-out block lg:inline-block py-2 lg:py-0">AboutMoon</a>
+          <a href="#skills" class="text-gray-200 hover:text-black transition duration-300 ease-in-out block lg:inline-block py-2 lg:py-0">MoonSkills</a>
+          <a href="#projects" class="text-gray-200 hover:text-black transition duration-300 ease-in-out block lg:inline-block py-2 lg:py-0">MoonProjects</a>
+          <a href="#contact" class="text-gray-200 hover:text-black transition duration-300 ease-in-out block lg:inline-block py-2 lg:py-0">MoonContact</a>
+        </div>
+      <div>
+        
+      </div>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center pt-24 lg:pt-32 px-4 lg:px-16">
+    <div class="text-white">
+      <img src="Mt.webp" alt="" class="w-32 h-32 lg:w-48 lg:h-48 rounded-full mb-4 mx-auto animate-spin-slow duration-30s transform transition-transform duration-500 hover:rotate-360">
+      <h1 class="text-4xl lg:text-7xl font-bold leading-tight mb-4">Hi, I'm Awoyemi Raphael (MooonTech)</h1>
+      <p class="text-lg lg:text-2xl mb-8 text-gradient bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 inline-block text-transparent bg-clip-text">A passionate web developer.</p>
+    </div>
+  </section>
+
+  <section id="about" class="py-16 lg:py-32 px-4 lg:px-16 bg-black">
+    <div class="container mx-auto">
+      <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8 text-center reveal">About Me</h2>
+      <div class="flex flex-col lg:flex-row items-center">
+        <div class="lg:w-1/2 mb-8 lg:mb-0 order-2 lg:order-1">
+          <img src="../public/profile.jpg" alt="Profile Picture" class="rounded-lg shadow-lg mx-auto lg:mx-0 transform transition-transform duration-500 hover:scale-110">
+        </div>
+        <div class="lg:w-1/2 lg:pl-16 order-1 lg:order-2">
+          <p class="text-white leading-relaxed mb-6 reveal">
+            As a driven and dedicated web developer, I am passionate about building dynamic and user-friendly web applications. My portfolio showcases my growing proficiency in HTML, CSS, and JavaScript, including utilizing APIs (Node.js) and integrating databases (Firebase). I am eager to contribute my skills to innovative projects that challenge and expand my expertise.
+          </p>
+          <a href="#contact" class="btn btn-primary reveal">Contact Me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="py-16 lg:py-32 px-4 lg:px-16 bg-gray-800">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8 reveal">My Skills</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <a href="" class="reveal">
+          <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 ease-in-out">
+            <span class="material-icons text-5xl lg:text-6xl text-blue-500 skill-icon">code</span>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4">HTML</h3>
+          </div>
+        </a>
+        <a href="" class="reveal">
+          <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 ease-in-out">
+            <span class="material-icons text-5xl lg:text-6xl text-blue-400 skill-icon">css</span>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4">CSS</h3>
+          </div>
+        </a>
+        <a href="" class="reveal">
+          <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 ease-in-out">
+            <span class="material-icons text-5xl lg:text-6xl text-yellow-400 skill-icon">javascript</span>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4">JavaScript</h3>
+          </div>
+        </a>
+        <a href="" class="reveal">
+          <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 ease-in-out">
+            <span class="material-icons text-5xl lg:text-6xl text-gray-700 skill-icon">storage</span>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4">Firebase</h3>
+          </div>
+        </a>
+        <a href="" class="reveal">
+          <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 ease-in-out">
+            <span class="material-icons text-5xl lg:text-6xl text-indigo-600 skill-icon">api</span>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4">APIs</h3>
+          </div>
+        </a>
+        <a href="" class="reveal">
+          <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 ease-in-out">
+            <span class="material-icons text-5xl lg:text-6xl text-red-500 skill-icon">devices</span>
+            <h3 class="text-xl font-semibold text-gray-800 mt-4">Responsive Design</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="py-16 lg:py-32 px-4 lg:px-16 bg-black">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8 reveal">My Projects</h2>
+
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden project-card">
+              <img src="project1.jpg" alt="Project 1" class="w-full transform transition-transform duration-500 hover:scale-110">
+              <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Project Title 1</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                <a href="#" class="btn btn-primary">View Project</a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden project-card">
+              <img src="project2.jpg" alt="Project 2" class="w-full transform transition-transform duration-500 hover:scale-110">
+              <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Project Title 2</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                <a href="#" class="btn btn-primary">View Project</a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden project-card">
+              <img src="project3.jpg" alt="Project 3" class="w-full transform transition-transform duration-500 hover:scale-110">
+              <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Project Title 3</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                <a href="#" class="btn btn-primary">View Project</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact" class="py-16 lg:py-32 px-4 lg:px-16 bg-gray-800">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8 reveal">Contact Me</h2>
+      <p class="text-white leading-relaxed mb-8 reveal">Interested in working together? Get in touch!</p>
+
+      <div class="flex justify-center space-x-4 mb-4">
+        <a href="mailto:raphaelasiwaju1@gmail.com" class="btn btn-outline reveal">
+          <!-- <span class="mdi--gmail"></span> -->
+           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDE0IDE0Ij48ZyBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMS43NDMgMTIuMDAzaDIuNjVWMy4wODhsLS44MTItLjUyQzIuNDA2IDEuODE2Ljg2IDIuNjU4Ljg2IDQuMDV2Ny4wNzRjMCAuNDg2LjM5Ni44OC44ODQuODhaIi8+PHBhdGggZD0iTS44NiA0LjA1djEuMTc2bDMuNTMzIDIuMjYzbDIuNjUgMS42OThsMi42NS0xLjY5OGwzLjUzNC0yLjI2M1Y0LjA0OWMwLTEuMzkyLTEuNTQ3LTIuMjM0LTIuNzIzLTEuNDhsLS44MS41MmwtMi42NTEgMS42OTdsLTIuNjUtMS42OThsLS44MTItLjUyQzIuNDA2IDEuODE2Ljg2IDIuNjU4Ljg2IDQuMDUiLz48cGF0aCBkPSJNOS42OTMgMTIuMDAzaDIuNjVhLjg4Ljg4IDAgMCAwIC44ODMtLjg4VjQuMDQ5YzAtMS4zOTItMS41NDYtMi4yMzQtMi43MjItMS40OGwtLjgxMS41MnoiLz48L2c+PC9zdmc+" alt="">
+        </a>
+
+        <a href="https://wa.me/+2349150822069" class="btn btn-outline reveal">
+          <!-- <span class="prime--whatsapp"></span> -->
+           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJub25lIj48ZyBjbGlwLXBhdGg9InVybCgjbWFnZVdoYXRzYXBwRmlsbGVkMCkiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0ibTEzLjc5IDIuNjRsLS41Ny0uMDhhOS4xMyA5LjEzIDAgMCAwLTguOTIgNGE5LjEgOS4xIDAgMCAwLS43MSA5LjY2YTEuMyAxLjMgMCAwIDEgLjEgMWMtLjQxIDEuNDEtLjc5IDIuODMtMS4xOSA0LjMybC41LS4xNWMxLjM1LS4zNiAyLjctLjcyIDQuMDUtMS4wNWExLjQ1IDEuNDUgMCAwIDEgLjg1LjA4YTkuNDUgOS40NSAwIDEgMCA1Ljg5LTE3Ljc4bTIuNTIgMTMuMTJhMi43NiAyLjc2IDAgMCAxLTIuNzIuNTZhOS4yIDkuMiAwIDAgMS01LjEzLTMuNzFhOC41IDguNSAwIDAgMS0xLjExLTIuMDhhMi40OSAyLjQ5IDAgMCAxIC41NS0yLjUyYTEuMjMgMS4yMyAwIDAgMSAxLjMyLS40MmMuMi4wNS4zNC4zNC41Mi41NnEuMjIuNjIuNTEgMS4yMWEuOTQuOTQgMCAwIDEtLjIgMS4zMWMtLjQ1LjQtLjM4LjczLS4wNiAxLjE4YTYuNyA2LjcgMCAwIDAgMi44MiAyLjMyYy4zMi4xNC41Ni4xNy43Ny0uMTZjLjA5LS4xMy4yMS0uMjQuMzEtLjM2Yy41OC0uNzMuNC0uNzIgMS4zMi0uMzJxLjQ0LjE4NS44NS40M2MuMjcuMTYuNjguMzMuNzQuNTdhMS40NSAxLjQ1IDAgMCAxLS40OSAxLjQzIi8+PC9nPjxkZWZzPjxjbGlwUGF0aCBpZD0ibWFnZVdoYXRzYXBwRmlsbGVkMCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTIuNSAyLjVoMTl2MTloLTE5eiIvPjwvY2xpcFBhdGg+PC9kZWZzPjwvZz48L3N2Zz4=" alt="">
+        </a>
+        <a href="https://www.linkedin.com/in/raphael-asiwaju-awoyemi-03958429a" class="btn btn-outline reveal">
+          <!-- <span class="ant-design--linkedin-filled"></span> -->
+           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xOC40NCAzLjA2SDUuNTZhMi41MDcgMi41MDcgMCAwIDAtMi41IDIuNXYxMi44OGEyLjUwNyAyLjUwNyAwIDAgMCAyLjUgMi41aDEyLjg4YTIuNSAyLjUgMCAwIDAgMi41LTIuNVY1LjU2YTIuNSAyLjUgMCAwIDAtMi41LTIuNW0xLjUgMTUuMzhhMS41MSAxLjUxIDAgMCAxLTEuNSAxLjVINS41NmExLjUxIDEuNTEgMCAwIDEtMS41LTEuNVY1LjU2YTEuNTEgMS41MSAwIDAgMSAxLjUtMS41aDEyLjg4YTEuNTEgMS41MSAwIDAgMSAxLjUgMS41WiIvPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTTYuMzc2IDEwLjc0OGExIDEgMCAxIDEgMiAwdjYuNWExIDEgMCAwIDEtMiAwWiIvPjxjaXJjbGUgY3g9IjcuMzc2IiBjeT0iNi43NDQiIHI9IjEiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTTE3LjYyIDEzLjM3djMuODhhMSAxIDAgMSAxLTIgMHYtMy44OGExLjYxNSAxLjYxNSAwIDEgMC0zLjIzIDB2My44OGExIDEgMCAwIDEtMiAwdi02LjVhMS4wMTYgMS4wMTYgMCAwIDEgMS0xYS45NC45NCAwIDAgMSAuODQuNDdhMy42MSAzLjYxIDAgMCAxIDUuMzkgMy4xNSIvPjwvc3ZnPg==" alt="">
+        </a>
+        <a href="https://github.com/Awomoon" class="btn btn-outline reveal">
+          <!-- <span class="ri--github-fill"></span> -->
+           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xMi4wMDEgMmMtNS41MjUgMC0xMCA0LjQ3NS0xMCAxMGE5Ljk5IDkuOTkgMCAwIDAgNi44MzcgOS40ODhjLjUuMDg3LjY4OC0uMjEzLjY4OC0uNDc2YzAtLjIzNy0uMDEzLTEuMDI0LS4wMTMtMS44NjJjLTIuNTEyLjQ2My0zLjE2Mi0uNjEyLTMuMzYyLTEuMTc1Yy0uMTEzLS4yODgtLjYtMS4xNzUtMS4wMjUtMS40MTNjLS4zNS0uMTg3LS44NS0uNjUtLjAxMy0uNjYyYy43ODgtLjAxMyAxLjM1LjcyNSAxLjUzOCAxLjAyNWMuOSAxLjUxMiAyLjMzNyAxLjA4NyAyLjkxMi44MjVjLjA4OC0uNjUuMzUtMS4wODcuNjM4LTEuMzM3Yy0yLjIyNS0uMjUtNC41NS0xLjExMy00LjU1LTQuOTM4YzAtMS4wODguMzg3LTEuOTg3IDEuMDI1LTIuNjg3Yy0uMTAtLjI1LS40NS0xLjI3NS4xLTIuNjVjMCAwIC44MzctLjI2MyAyLjc1IDEuMDI0YTkuMyA5LjMgMCAwIDEgMi41LS4zMzdjLjg1IDAgMS43LjExMiAyLjUuMzM3YzEuOTEzLTEuMyAyLjc1LTEuMDI0IDIuNzUtMS4wMjRjLjU1IDEuMzc1LjIgMi40LjEgMi42NWMuNjM3LjcgMS4wMjUgMS41ODcgMS4wMjUgMi42ODdjMCAzLjgzOC0yLjMzNyA0LjY4OC00LjU2MiA0LjkzOGMuMzYyLjMxMi42NzUuOTEyLjY3NSAxLjg1YzAgMS4zMzctLjAxMyAyLjQxMi0uMDEzIDIuNzVjMCAuMjYyLjE4OC41NzQuNjg4LjQ3NEExMC4wMiAxMC4wMiAwIDAgMCAyMiAxMmMwLTUuNTI1LTQuNDc1LTEwLTEwLTEwIi8+PC9zdmc+" alt="">
+
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-4 px-4 lg:px-16 text-center text-white">
+    <p>&copy; 2024 MoonTech. All rights reserved.</p>
+  </footer>
+
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      },
+    });
+
+    ScrollReveal({
+      origin: 'bottom',
+      distance: '20px',
+      duration: 800,
+      delay: 400,
+      reset: true
+    }).reveal('.reveal', { interval: 100 });
+
+    gsap.from('#hero h1', { y: 50, opacity: 0, duration: 1, ease: 'power2.out' });
+    gsap.from('#hero p', { y: 30, opacity: 0, duration: 1, delay: 0.5, ease: 'power2.out' });
+
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    function toggleMenu() {
+      navLinks.classList.toggle('show');
+    }
+  </script>
+</body>
+</html>
