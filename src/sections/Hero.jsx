@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
@@ -24,45 +24,6 @@ const Hero = () => {
   const particlesInit = async (engine) => {
     await loadFull(engine);
   };
-
-  const [text, setText] = useState("");
-  const [index, setIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [cursorVisible, setCursorVisible] = useState(true);
-
-  const skill = `Skilled in ${skills[index]}`;
-
-  // Enhanced typing effect
-  useEffect(() => {
-    const typingSpeed = isDeleting ? 50 : 100;
-    const pauseSpeed = isDeleting ? 500 : 1500;
-    let timeoutId;
-
-    if (isDeleting) {
-      if (text.length > 0) {
-        timeoutId = setTimeout(() => {
-          setText((prev) => prev.slice(0, -1));
-        }, typingSpeed);
-      } else {
-        setIsDeleting(false);
-        setIndex((prev) => (prev + 1) % skills.length);
-        setCursorVisible(true);
-      }
-    } else {
-      if (text !== skill) {
-        timeoutId = setTimeout(() => {
-          setText((prev) => skill.slice(0, prev.length + 1));
-        }, typingSpeed);
-      } else {
-        timeoutId = setTimeout(() => {
-          setIsDeleting(true);
-          setCursorVisible(false);
-        }, pauseSpeed);
-      }
-    }
-
-    return () => clearTimeout(timeoutId);
-  }, [text, isDeleting, skill]);
 
   // Animate background on scroll
   useEffect(() => {
@@ -92,13 +53,13 @@ const Hero = () => {
         }}
       />
 
-      {/* Particles Background */}
+      {/* Optimized Particles Background */}
       <Particles
         id="tsparticles"
         init={particlesInit}
         options={{
           background: { color: { value: "transparent" } },
-          fpsLimit: 120,
+          fpsLimit: 60,
           interactivity: {
             events: {
               onHover: {
@@ -109,7 +70,7 @@ const Hero = () => {
           },
           particles: {
             number: {
-              value: 80,
+              value: 60,
               density: {
                 enable: true,
                 value_area: 800,
@@ -124,24 +85,14 @@ const Hero = () => {
             opacity: {
               value: 0.7,
               random: true,
-              anim: {
-                enable: true,
-                speed: 1,
-                opacity_min: 0.1,
-              },
             },
             size: {
               value: 3,
               random: true,
-              anim: {
-                enable: true,
-                speed: 4,
-                size_min: 0.3,
-              },
             },
             move: {
               enable: true,
-              speed: 2,
+              speed: 1.5,
               direction: "none",
               random: true,
               straight: false,
@@ -181,28 +132,47 @@ const Hero = () => {
         </motion.h1>
 
         <motion.h2
-          className="text-2xl lg:text-4xl font-semibold mb-8 text-gradient bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 inline-block text-transparent bg-clip-text"
+          className="text-2xl lg:text-3xl font-semibold mb-8 text-gradient bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 inline-block text-transparent bg-clip-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          {text}
-          {cursorVisible && (
-            <span className="inline-block w-[2px] h-[1.2em] bg-white ml-1 animate-blink align-middle"></span>
-          )}
+          Skilled Full Stack Developer
         </motion.h2>
+
+        <motion.div
+          className="flex flex-wrap justify-center gap-2 mb-8 max-w-lg mx-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          {skills.map((skill, index) => (
+            <span
+              key={index}
+              className="inline-block bg-indigo-900/50 text-indigo-100 px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm"
+            >
+              {skill}
+            </span>
+          ))}
+        </motion.div>
 
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.8 }}
         >
           <a
             href="#contact"
             className="inline-block bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-lg font-semibold py-3 px-8 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 hover:shadow-indigo-500/30"
           >
             Contact Me
+          </a>
+          <a
+            href="#projects"
+            className="inline-block border-2 border-indigo-500 text-white text-lg font-semibold py-3 px-8 rounded-full hover:bg-indigo-500/10 transition-colors duration-300"
+          >
+            View Work
           </a>
         </motion.div>
 
