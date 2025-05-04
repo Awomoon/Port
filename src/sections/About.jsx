@@ -259,7 +259,7 @@ const About = () => {
               viewport={{ once: true, margin: "-100px" }}
             >
               <motion.a
-                href="/path/to/your-cv.pdf"
+                href="public/Awoyemi-Raphael-CV.pdf"
                 download="Awoyemi-Raphael-CV.pdf"
                 className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium py-3 px-6 rounded-full hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}

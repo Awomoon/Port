@@ -1,40 +1,31 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaPaperPlane, FaTwitter } from "react-icons/fa";
+import { useForm, ValidationError } from '@formspree/react';
 
 const Contact = () => {
+  const [state, handleFormspreeSubmit] = useForm("mwpoljng");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    const { name, email, message } = formData;
-    const mailtoLink = `mailto:raphaelasiwaju1@gmail.com?subject=Portfolio Contact from ${encodeURIComponent(
-      name
-    )}&body=${encodeURIComponent(message)}%0A%0AFrom: ${encodeURIComponent(
-      email
-    )}%0A`;
+    const result = await handleFormspreeSubmit({
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+    });
 
-    setTimeout(() => {
-      window.location.href = mailtoLink;
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
+    if (result?.body?.ok) {
       setFormData({ name: "", email: "", message: "" });
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1500);
+    }
   };
 
   const contactLinks = [
@@ -63,7 +54,7 @@ const Contact = () => {
       color: "hover:bg-gray-800",
     },
     {
-      href: "https://x.com/Awomoon_Sentake", // Replace with your Twitter URL
+      href: "https://x.com/Awomoon_Sentake",
       icon: <FaTwitter />,
       label: "Twitter",
       color: "hover:bg-blue-400",
@@ -72,32 +63,17 @@ const Contact = () => {
 
   return (
     <section id="contact" className="relative py-16 lg:py-32 px-4 lg:px-16 bg-gradient-to-br from-gray-900 to-black overflow-hidden">
-      {/* Animated background elements */}
+      {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
-        <motion.div 
+        <motion.div
           className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-purple-600 blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.15, 0.1]
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.15, 0.1] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div 
+        <motion.div
           className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-blue-600 blur-3xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.1, 0.2, 0.1]
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 5
-          }}
+          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 5 }}
         />
       </div>
 
@@ -109,12 +85,7 @@ const Contact = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <motion.h2
-            className="text-4xl lg:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
+          <motion.h2 className="text-4xl lg:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
             Get In Touch
           </motion.h2>
           <motion.div
@@ -142,66 +113,83 @@ const Contact = () => {
             transition={{ delay: 0.4, duration: 0.6 }}
           >
             <div>
-              <label className="block text-gray-300 mb-2 font-medium">Your Name</label>
+              <label htmlFor="name" className="block text-gray-300 mb-2 font-medium">
+                Your Name
+              </label>
               <input
-                name="name"
+                id="name"
                 type="text"
-                required
+                name="name"
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-700 transition"
                 placeholder="John Doe"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-300 mb-2 font-medium">Email Address</label>
-              <input
-                name="email"
-                type="email"
                 required
+              />
+              <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-400 text-sm mt-1" />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-gray-300 mb-2 font-medium">
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                name="email"
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-700 transition"
                 placeholder="john@example.com"
+                required
               />
+              <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-400 text-sm mt-1" />
             </div>
+
             <div>
-              <label className="block text-gray-300 mb-2 font-medium">Your Message</label>
+              <label htmlFor="message" className="block text-gray-300 mb-2 font-medium">
+                Your Message
+              </label>
               <textarea
+                id="message"
                 name="message"
                 rows={5}
-                required
                 value={formData.message}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-700 transition"
                 placeholder="Hello Raphael, I'd like to talk about..."
-              ></textarea>
+                required
+              />
+              <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-400 text-sm mt-1" />
             </div>
+
             <div className="pt-2">
               <motion.button
                 type="submit"
+                disabled={state.submitting}
                 className={`flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg w-full transition-all ${
-                  isSubmitting ? "opacity-80" : "hover:shadow-lg hover:shadow-blue-500/30"
+                  state.submitting ? "opacity-80" : "hover:shadow-lg hover:shadow-blue-500/30"
                 }`}
-                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-                disabled={isSubmitting}
+                whileHover={!state.submitting ? { scale: 1.02 } : {}}
+                whileTap={!state.submitting ? { scale: 0.98 } : {}}
               >
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    Send Message <FaPaperPlane />
-                  </>
-                )}
+                {state.submitting ? "Sending..." : <>Send Message <FaPaperPlane /></>}
               </motion.button>
             </div>
-            {submitSuccess && (
+
+            {state.errors && state.errors.length > 0 && (
+              <div className="p-3 bg-red-900/50 text-red-300 border border-red-700 rounded-lg mt-4">
+                {state.errors.map((err, idx) => (
+                  <div key={idx}>{err.message}</div>
+                ))}
+              </div>
+            )}
+
+            {state.succeeded && (
               <motion.div
                 className="p-3 bg-green-900/50 text-green-300 rounded-lg border border-green-700 text-center"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
               >
                 Message sent successfully! I'll get back to you soon.
               </motion.div>
@@ -219,49 +207,41 @@ const Contact = () => {
               <p className="text-gray-300 mb-8">
                 Feel free to reach out through any of these channels. I typically respond within 24 hours.
               </p>
-              
+
               <div className="space-y-4">
+                {/* Email */}
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-blue-600 rounded-lg">
                     <FaEnvelope className="text-xl text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
-                    <a 
-                      href="mailto:raphaelasiwaju1@gmail.com" 
-                      className="text-white hover:text-blue-400 transition"
-                    >
+                    <a href="mailto:raphaelasiwaju1@gmail.com" className="text-white hover:text-blue-400 transition">
                       raphaelasiwaju1@gmail.com
                     </a>
                   </div>
                 </div>
-                
+                {/* WhatsApp */}
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-green-500 rounded-lg">
                     <FaWhatsapp className="text-xl text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">WhatsApp</p>
-                    <a 
-                      href="https://wa.me/+2349150822069" 
-                      className="text-white hover:text-green-400 transition"
-                    >
+                    <a href="https://wa.me/+2349150822069" className="text-white hover:text-green-400 transition">
                       +234 915 082 2069
                     </a>
                   </div>
                 </div>
-
+                {/* Twitter */}
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-blue-400 rounded-lg">
                     <FaTwitter className="text-xl text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Twitter</p>
-                    <a 
-                      href="https://twitter.com/yourusername" 
-                      className="text-white hover:text-blue-300 transition"
-                    >
-                      @yourusername
+                    <a href="https://x.com/Awomoon_Sentake" className="text-white hover:text-blue-300 transition">
+                      @Awomoon_Sentake
                     </a>
                   </div>
                 </div>

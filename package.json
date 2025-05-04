@@ -13,6 +13,7 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
+    "@formspree/react": "^3.0.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.8.1",
     "framer-motion": "^12.9.4",
