@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaPaperPlane, FaTwitter } from "react-icons/fa";
 import { useForm, ValidationError } from '@formspree/react';
 
@@ -10,21 +10,43 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const [submitError, setSubmitError] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  // Reset success message after 5 seconds
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear errors when user starts typing
+    if (submitError) setSubmitError(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await handleFormspreeSubmit({
-      name: formData.name,
-      email: formData.email,
-      message: formData.message,
-    });
-
-    if (result?.body?.ok) {
-      setFormData({ name: "", email: "", message: "" });
+    setSubmitError(null);
+    
+    try {
+      const result = await handleFormspreeSubmit(e);
+      
+      if (result instanceof Error) {
+        throw result;
+      }
+      
+      if (state.succeeded) {
+        setFormData({ name: "", email: "", message: "" });
+        setIsSuccess(true);
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setSubmitError("Failed to send message. Please try again or contact me directly via email.");
     }
   };
 
@@ -126,7 +148,12 @@ const Contact = () => {
                 placeholder="John Doe"
                 required
               />
-              <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-400 text-sm mt-1" />
+              <ValidationError 
+                prefix="Name" 
+                field="name"
+                errors={state.errors}
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <div>
@@ -143,7 +170,12 @@ const Contact = () => {
                 placeholder="john@example.com"
                 required
               />
-              <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-400 text-sm mt-1" />
+              <ValidationError 
+                prefix="Email" 
+                field="email"
+                errors={state.errors}
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <div>
@@ -160,7 +192,12 @@ const Contact = () => {
                 placeholder="Hello Raphael, I'd like to talk about..."
                 required
               />
-              <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-400 text-sm mt-1" />
+              <ValidationError 
+                prefix="Message" 
+                field="message"
+                errors={state.errors}
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <div className="pt-2">
@@ -168,30 +205,59 @@ const Contact = () => {
                 type="submit"
                 disabled={state.submitting}
                 className={`flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg w-full transition-all ${
-                  state.submitting ? "opacity-80" : "hover:shadow-lg hover:shadow-blue-500/30"
+                  state.submitting 
+                    ? "opacity-80 cursor-not-allowed" 
+                    : "hover:shadow-lg hover:shadow-blue-500/30"
                 }`}
                 whileHover={!state.submitting ? { scale: 1.02 } : {}}
                 whileTap={!state.submitting ? { scale: 0.98 } : {}}
               >
-                {state.submitting ? "Sending..." : <>Send Message <FaPaperPlane /></>}
+                {state.submitting ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </span>
+                ) : (
+                  <>
+                    Send Message <FaPaperPlane />
+                  </>
+                )}
               </motion.button>
             </div>
 
-            {state.errors && state.errors.length > 0 && (
-              <div className="p-3 bg-red-900/50 text-red-300 border border-red-700 rounded-lg mt-4">
-                {state.errors.map((err, idx) => (
-                  <div key={idx}>{err.message}</div>
-                ))}
-              </div>
-            )}
-
-            {state.succeeded && (
+            {/* Success message */}
+            {isSuccess && (
               <motion.div
                 className="p-3 bg-green-900/50 text-green-300 rounded-lg border border-green-700 text-center"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
                 Message sent successfully! I'll get back to you soon.
+              </motion.div>
+            )}
+
+            {/* Error message */}
+            {submitError && (
+              <motion.div
+                className="p-3 bg-red-900/50 text-red-300 rounded-lg border border-red-700 text-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                {submitError}
+              </motion.div>
+            )}
+
+            {/* Formspree validation errors */}
+            {state.errors && (
+              <motion.div
+                className="p-3 bg-yellow-900/50 text-yellow-300 rounded-lg border border-yellow-700 text-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                Please check all fields and try again.
               </motion.div>
             )}
           </motion.form>
@@ -207,40 +273,48 @@ const Contact = () => {
               <p className="text-gray-300 mb-8">
                 Feel free to reach out through any of these channels. I typically respond within 24 hours.
               </p>
-
+              
               <div className="space-y-4">
-                {/* Email */}
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-blue-600 rounded-lg">
                     <FaEnvelope className="text-xl text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
-                    <a href="mailto:raphaelasiwaju1@gmail.com" className="text-white hover:text-blue-400 transition">
+                    <a 
+                      href="mailto:raphaelasiwaju1@gmail.com" 
+                      className="text-white hover:text-blue-400 transition"
+                    >
                       raphaelasiwaju1@gmail.com
                     </a>
                   </div>
                 </div>
-                {/* WhatsApp */}
+                
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-green-500 rounded-lg">
                     <FaWhatsapp className="text-xl text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">WhatsApp</p>
-                    <a href="https://wa.me/+2349150822069" className="text-white hover:text-green-400 transition">
+                    <a 
+                      href="https://wa.me/+2349150822069" 
+                      className="text-white hover:text-green-400 transition"
+                    >
                       +234 915 082 2069
                     </a>
                   </div>
                 </div>
-                {/* Twitter */}
+
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-blue-400 rounded-lg">
                     <FaTwitter className="text-xl text-white" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Twitter</p>
-                    <a href="https://x.com/Awomoon_Sentake" className="text-white hover:text-blue-300 transition">
+                    <a 
+                      href="https://x.com/Awomoon_Sentake" 
+                      className="text-white hover:text-blue-300 transition"
+                    >
                       @Awomoon_Sentake
                     </a>
                   </div>
